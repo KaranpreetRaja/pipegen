@@ -5,7 +5,7 @@ const Navbar = () => {
     // State to manage dark mode
     const [darkMode, setDarkMode] = useState(false);
 
-    const [isLoggedIn, setLoggedIn] = useState(false);
+    const [isLoggedIn, setLoggedIn] = useState(true);
 
     // Function to toggle dark mode
     const toggleDarkMode = () => {

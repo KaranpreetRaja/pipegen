@@ -5,7 +5,11 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      height: {
+        'file-upload-modal': '800px',
+      },
+    },
   },
   plugins: [],
 }
