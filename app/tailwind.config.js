@@ -6,8 +6,12 @@ export default {
   ],
   theme: {
     extend: {
+      colors: {
+        'honeydue-shade': '#fcfefc',
+      },
       height: {
-        'file-upload-modal': '800px',
+        'file-upload-modal': '700px',
+        'files-section': '450px'
       },
     },
   },

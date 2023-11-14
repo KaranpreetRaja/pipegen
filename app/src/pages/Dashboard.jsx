@@ -10,10 +10,10 @@ const Dashboard = () => {
 		<div className="flex flex-col">
 			<Navbar />
 			<div className="flex-1 flex flex-col overflow-hidden bg-gray-100 h-full">
-				<div className="container mx-auto my-8 p-4">
+				<div className="container mx-auto my-8 p-4 ml-8">
 					<div className="mb-16">
 						<h1 className="text-3xl font-bold mb-4">Dashboard</h1>
-						<h2 className="text-1xl mb-4">Recent Pipeline Sessions</h2>
+						<h2 className="text-1xl font-semibold mb-4">Pipeline Sessions</h2>
 						<div className="flex card-scroll">
 							<Card1 />
 							<Card1 />
@@ -22,7 +22,7 @@ const Dashboard = () => {
 						</div>
 					</div>
 					<div className='flex flex-row justify-between items-start'>
-						<div className="bg-white p-12 w-full max-w-lg rounded-lg flex flex-col items-center">
+						<div className="bg-white h-68 max-w-lg p-12 w-full  rounded-lg flex flex-col items-center">
 							<div className="text-4xl text-blue-500 mb-4 mt-5">
 								<FaRocketchat />
 							</div>
@@ -45,7 +45,6 @@ const Dashboard = () => {
 								</div>
 							</Card2>
 						</div>
-
 					</div>
 				</div>
 			</div>

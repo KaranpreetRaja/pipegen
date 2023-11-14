@@ -14,22 +14,39 @@ const File_Upload_Window = () => {
             </button>} position="center center" modal nested>
 
             {close => (
-                <div className="font-sans text-sm bg-white p-8 rounded-lg w-full h-file-upload-modal">
-                    <div className="flex justify-between items-center mb-4">
-                        <h1 className="text-3xl font-semibold">Your Files</h1>
-                        <button className="bg-blue-700 text-white px-4 py-2 rounded-full hover:bg-blue-900 focus:outline-none focus:ring focus:border-blue-300 flex flex-row items-center space-x-2">
-                            <AiOutlineArrowUp/>
-                            <span>Upload a new File</span>
-                            
-                        </button>
-                    </div>
-              
-                    <div className="flex mt-12">
-                        <div className="w-full">
-                            <File/>
-                        </div>
+            <div className="font-sans text-sm bg-white p-8 rounded-lg w-full h-file-upload-modal">
+                <div className="flex justify-between items-center mb-4">
+                    <h1 className="text-3xl font-semibold">Your Files</h1>
+                    <button className="bg-blue-700 text-white px-4 py-2 rounded-full hover:bg-blue-900 focus:outline-none focus:ring focus:border-blue-300 flex flex-row items-center space-x-2">
+                        <AiOutlineArrowUp />
+                        <span>Upload a new File</span>
+                    </button>
+                </div>
+
+                <div className="flex justify-end mt-4">
+                    <button className="bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-700 focus:outline-none focus:ring focus:border-green-300">
+                        Select
+                    </button>
+                </div>
+
+                <div className="flex mt-4">
+                    <div className="w-full overflow-y-scroll space-y-4 ml-2 h-files-section">
+                        <File />
+                        <File />
+                        <File />
+                        <File />
+                        <File />
+                        <File />
+                        <File />
+                        <File />
+                        <File />
+                        <File />
+                        <File />
+                        <File />
                     </div>
                 </div>
+            </div>
+            
             )}
         </Popup>
     )
