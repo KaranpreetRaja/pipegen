@@ -3,7 +3,7 @@ import { BsFillTrashFill } from 'react-icons/bs'
 
 const File = ({ /* Add any necessary props here */ }) => {
     return (
-      <div className="bg-white p-6 w-10/12 h-16 rounded-lg border-grey-200 border-2 flex items-center">
+      <div className="bg-white p-6 w-full h-16 rounded-lg border-grey-200 border-2 flex items-center">
         <BsFillTrashFill className="text-red-500 text-2xl hover:text-red-700 cursor-pointer" />
   
         <div className="mx-4 h-6 border-l border-gray-300"></div>
