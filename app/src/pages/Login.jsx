@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { FcGoogle } from 'react-icons/fc'
+import { IconContext } from "react-icons";
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -34,6 +36,21 @@ const Login = () => {
                 <h2>
                     <img src='/logo.png' width={28} /> PipeGen AI
                 </h2>
+            </div>
+            <div>
+                <div className="flex justify-center w-full mt-2">
+                    <button className="w-96 h-12 input-field bg-white border-slate-500 border-2 text-black font-bold py-3 px-24 rounded inline-flex items-center">
+                        <IconContext.Provider value={{ size: "30px" }}>
+                            <FcGoogle />
+                        </IconContext.Provider>
+                        <span className="ml-4">Sign in with Google</span>
+                    </button>
+                </div>
+                <p className="text-sm font-semibold text-center mt-4">
+                    <span className="border-b w-full text-center border-gray-300 py-1">
+                    Or
+                    </span>
+                </p>
             </div>
             <form className="login-form" onSubmit={handleSubmit}>
                 <div className="form-group">
