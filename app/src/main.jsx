@@ -11,6 +11,7 @@ import App from './App.jsx';
 import Login from './pages/Login.jsx';
 import Signup from './pages/Signup.jsx';
 import Dashboard from './pages/Dashboard.jsx';
+import ChatBot from './pages/ChatBot.jsx';
 
 const router = createBrowserRouter([
     {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
     {
         path: "/dashboard",
         element: <Dashboard />
+    },
+    {
+        path: "/chatbot",
+        element: <ChatBot />
     }
 ]);
 
