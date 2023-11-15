@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from "axios"
 
 const Signup = () => {
 	const [formData, setFormData] = useState({
@@ -12,11 +13,22 @@ const Signup = () => {
 		const { name, value } = e.target;
 		setFormData((prevData) => ({ ...prevData, [name]: value }));
 	};
-
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		// Add your form submission logic here
+	
+	const handleSubmit = async (formData) => {
 		console.log('Form submitted:', formData);
+		try {
+			const user = {
+				email: formData.email,
+				password: formData.password,
+				email_verified: true,  
+				account_disabled: false 
+			};
+	
+			const response = await axios.post('/api/register', user);
+			console.log('User registered successfully:', response.data.uid);
+		} catch (error) {
+			console.error('Error during registration:', error.response ? error.response.data.error : error.message);
+		}
 	};
 
 	return (
