@@ -5,7 +5,15 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'honeydue-shade': '#fcfefc',
+      },
+      height: {
+        'file-upload-modal': '700px',
+        'files-section': '450px'
+      },
+    },
   },
   plugins: [],
 }
