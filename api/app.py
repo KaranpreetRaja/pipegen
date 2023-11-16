@@ -6,13 +6,12 @@ cur_path = os.path.dirname(os.path.realpath(__file__))
 cred = credentials.Certificate(f"{cur_path}/key.json")
 default_app = initialize_app(cred)
 
-def init_app():
-    app = Flask(__name__)
-    from userAPI import user_api
+app = Flask(__name__)
+from userAPI import user_api
 
-    app.register_blueprint(user_api, url_prefix='/api/user')
-    
-    app.run(debug=True)
+app.register_blueprint(user_api, url_prefix='/api/user')
+
+app.run(debug=True)
 
 if __name__ == '__main__':
-    init_app()
+    app.run(debug=True)
