@@ -5,20 +5,11 @@ import WizardPage2 from "./WizardPage2";
 import WizardPage1 from "./WizardPage1";
 import WizardPage3 from "./WizardPage3";
 import WizardPage4 from "./WizardPage4";
-import { useHistory } from "react-router-dom";
+import axios from 'axios';
 
 const PipelineConfig = () => {
-  const [currentPage, setCurrentPage] = useState(1); // Track the current page
-
-  const filetoBLOB = (file) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        resolve(event.target.result);
-      };
-      reader.readAsDataURL(file);
-    });
-
+  const [page, setPage] = useState(1);
+  const [btnName, setBtnName] = useState("Next")
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -29,7 +20,7 @@ const PipelineConfig = () => {
     has_upload: false,
     dynamic_upload: false,
     uploads: [],
-    model: [
+    model: 
       {
         type: "",
         is_custom: false,
@@ -39,18 +30,19 @@ const PipelineConfig = () => {
         test_file: "",
         generation: "",
       },
-    ],
   });
 
+  const fileToBlob = () => {}
+  
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-
-    if (name === "has_upload" && !checked) {
+    if (name.startsWith("model.")) {
       setFormData((prevData) => ({
         ...prevData,
-        [name]: type === "checkbox" ? checked : value,
-        dynamic_upload: false,
-        uploads: [],
+        model: {
+          ...prevData.model,
+          [name.split(".")[1]]: type === "checkbox" ? checked : value,
+        },
       }));
     } else {
       setFormData((prevData) => ({
@@ -58,28 +50,97 @@ const PipelineConfig = () => {
         [name]: type === "checkbox" ? checked : value,
       }));
     }
+    // console.log(formData)
   };
 
-  const handleNext = async () => {
-    const history = useHistory();
+  const handleNext = (e) => {
+    handleChange(e);
 
-    if (currentPage === 1) {
-      setCurrentPage(formData.has_upload ? 2 : 3);
-    } else if (currentPage === 2) {
-      setCurrentPage(formData.model[0].is_custom ? 4 : 3);
-    } else {
-      try {
-        const response = await axios.post("your-api-endpoint", formData);
-
-        console.log("API Response:", response.data);
-
-        history.push("/chatbot");
-      } catch (error) {
-        console.error("Error sending FormData:", error);
+    if (page == 1){
+      if (formData.has_upload === true){
+        setPage(2)
+      }
+      else{
+        setFormData((prevData) => ({
+          ...prevData,
+          dynamic_upload: false,
+          uploads: [],
+        }));
+        setPage(3)
       }
     }
+    else if (page === 2){
+        setPage(3)
+    }
+    else if (page === 3){
+      if (formData.model.is_custom === true){
+        setPage(4)
+        setBtnName("Create")
+      }
+      else{
+        // TO DO: Reset training files in formData to null
+        console.log("Finished creating pipeline")
+        console.log(formData)
+      }
+    }
+    else if (page === 4){
+      console.log("Finished creating pipeline")
+      console.log(formData)
+    }
+    
+  }
+
+  const handleBack = (e) => {
+    handleChange(e);
+
+    if (page === 4) {
+      setPage(3);
+    } else if (page === 3) {
+      if (formData.has_upload === true){
+        setPage(2);
+      }
+      else{
+        setPage(1);
+      }
+    } else if (page === 2) {
+      setPage(1);
+    }
   };
 
+  const createPipeline = async () => {
+    try {
+      const response = await axios.post('your_api_endpoint_here', formData);
+      console.log('Pipeline created:', response.data);
+      // TO DO: Navigate to Model Page
+    } catch (error) {
+      console.error('Error creating pipeline:', error);
+    }
+  }
+
+  const clearFormData = () => {
+    setFormData({
+      name: "",
+      description: "",
+      author: "",
+      created: "",
+      last_updated: "",
+      visibility_public: false,
+      has_upload: false,
+      dynamic_upload: false,
+      uploads: [],
+      model: 
+        {
+          type: "",
+          is_custom: false,
+          train_file_format: "",
+          train_file: "",
+          has_test: false,
+          test_file: "",
+          generation: "",
+        },
+    });
+  }
+  
   return (
     <Popup
       trigger={
@@ -90,50 +151,70 @@ const PipelineConfig = () => {
       position="center center"
       modal
       nested
+      closeOnDocumentClick={false}
     >
       {(close) => (
-        <div className="bg-white h-file-upload-modal rounded-t-lg">
+        <div className="bg-white h-file-upload-modal rounded-t-lg flex flex-col justify-between">
           <div className="flex justify-center items-center w-full mb-4 bg-gray-200 rounded-t-lg">
             <h1 className="text-xl font-medium">New Pipeline</h1>
           </div>
-          {currentPage === 1 && (
             <WizardPage1
-              visibility={true}
+              visibility={page === 1}
               formData={formData}
               handleChange={handleChange}
             />
-          )}
-          {currentPage === 2 && (
+         
+          
             <WizardPage2
-              visibility={false}
+              visibility={page === 2}
               formData={formData}
               handleChange={handleChange}
+              handleFiles={handleFiles}
             />
-          )}
-          {currentPage === 3 && (
+         
+          
             <WizardPage3
-              visibility={false}
+              visibility={page === 3}
               formData={formData}
               handleChange={handleChange}
             />
-          )}
-          {currentPage === 4 && (
+          
+        
             <WizardPage4
-              visibility={false}
+              visibility={page === 4}
               formData={formData}
               handleChange={handleChange}
             />
-          )}
-          {currentPage !== 4 && (
-            <div className="flex justify-end w-full rounded-t-lg">
-              <button
-                className="bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
-                onClick={handleNext}
+          
+          
+            <div className="flex justify-between w-full rounded-t-lg">
+            <button
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
+                onClick={handleBack}
               >
-                Next
+                Back
               </button>
+
+              <div className="flex flex-row space-x-4">
+                <button
+                  className="bg-blue-400 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
+                  onClick={() => {
+                    setPage(1)
+                    close();
+                    clearFormData();
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-800 focus:outline-none focus:ring focus:border-blue-300"
+                  onClick={handleNext}
+                >
+                  {btnName}
+                </button>
+                
+              </div>
             </div>
-          )}
         </div>
       )}
     </Popup>

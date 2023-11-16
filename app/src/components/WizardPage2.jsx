@@ -2,7 +2,7 @@ import React from "react";
 import { AiOutlineArrowUp } from "react-icons/ai";
 import File from "./FileCard";
 
-const WizardPage2 = ({ visibility, formData, handleChange }) => {
+const WizardPage2 = ({ visibility, formData, handleChange, handleFiles }) => {
 
   return (
     <div className={visibility ? "" : "hidden"}>
@@ -15,17 +15,19 @@ const WizardPage2 = ({ visibility, formData, handleChange }) => {
             <input
               type="file"
               multiple
-              onChange={handleChange}
+              onChange={handleFiles}
               className="hidden"
             />
           </label>
         </div>
 
         <div className="flex mt-8 flex-col">
-          <label className="flex items-center space-x-2 cursor-pointer mb-8">
+          <label htmlFor="dynamic_upload" className="flex items-center space-x-2 cursor-pointer mb-8">
             <input
+              id="dynamic_upload"
+              name="dynamic_upload"
               type="checkbox"
-              checked={formData.dynamicUpload}
+              checked={formData.dynamic_upload}
               onChange={handleChange}
               className="text-blue-500"
             />
@@ -33,10 +35,13 @@ const WizardPage2 = ({ visibility, formData, handleChange }) => {
           </label>
 
           <div className="w-full overflow-y-scroll space-y-4 ml-2 h-files-section">
-            <File FileName={"File Name"} Size={"Size"} Download={"Download"}/>
-            <File FileName={"File Name"} Size={"Size"} Download={"Download"}/>
-            <File FileName={"File Name"} Size={"Size"} Download={"Download"}/>
-            <File FileName={"File Name"} Size={"Size"} Download={"Download"}/>
+          {formData.uploads.map((index) => (
+              <File key={index} FileName={`File ${index + 1}`}/>
+            ))}
+            <File FileName={"File Name"} Size={"Size"} />
+            <File FileName={"File Name"} Size={"Size"} />
+            <File FileName={"File Name"} Size={"Size"} />
+            <File FileName={"File Name"} Size={"Size"} />
           </div>
         </div>
       </div>
