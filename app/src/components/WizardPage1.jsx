@@ -1,23 +1,9 @@
 import { useState } from "react";
 
-const WizardPage1 = ({ visibility }) => {
-  const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    visibility_public: false,
-    has_upload: false,
-  });
-
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
+const WizardPage1 = ({ visibility, formData, handleChange }) => {
 
   return (
-        <div className={visibility ? 'hidden' : ''}>
+        <div className={visibility ? '' : 'hidden'}>
             <form className="p-6">
                 {/* Pipeline Name */}
                 <div className="mb-4">
@@ -59,7 +45,7 @@ const WizardPage1 = ({ visibility }) => {
                     onChange={handleChange}
                     className="mr-2"
                     />
-                    <span className="text-sm">Public Visibility</span>
+                    <span className="text-sm">Allow Public Visibility</span>
                 </label>
                 </div>
 
@@ -74,17 +60,11 @@ const WizardPage1 = ({ visibility }) => {
                     onChange={handleChange}
                     className="mr-2"
                     />
-                    <span className="text-sm">Has Upload</span>
+                    <span className="text-sm">Enable File Upload</span>
                 </label>
                 </div>
 
-                {/* Submit Button */}
-                <button
-                type="submit"
-                className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600"
-                >
-                Create Pipeline
-                </button>
+
             </form>
         </div>
   );
