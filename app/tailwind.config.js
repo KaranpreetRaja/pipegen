@@ -10,9 +10,12 @@ export default {
         'honeydue-shade': '#fcfefc',
       },
       height: {
-        'file-upload-modal': '700px',
-        'files-section': '450px'
+        'file-upload-modal': '550px',
+        'files-section': '250px',
       },
+      width: {
+        'pipeline': '500px'
+      }
     },
   },
   plugins: [],
