@@ -4,6 +4,7 @@ import Card1 from '../components/card1';
 import Card2 from '../components/card2';
 import { FaRocketchat } from 'react-icons/fa';
 import PipelineConfig from '../components/PipelineConfig';
+import Pipeline from '../components/Pipeline';
 
 const Dashboard = () => {
 	return (
@@ -20,12 +21,19 @@ const Dashboard = () => {
 							<Card1 />
 							<Card1 />
 						</div>
-						<h2 className="text-1xl font-semibold mt-2">Recent Pipelines Pipeline</h2>
-						<div className="flex card-scroll">
-							<Card1 />
-							<Card1 />
-							<Card1 />
-							<Card1 />
+						<h2 className="text-1xl font-semibold mt-2">Recently Made Pipelines</h2>
+						<div className="flex flex-row w-full card-scroll">
+							<Pipeline />
+							<Pipeline />
+							<Pipeline />
+							<Pipeline />
+							<Pipeline />
+							<Pipeline />
+							<Pipeline />
+							<Pipeline />
+							<Pipeline />
+							<Pipeline />
+							<Pipeline />
 						</div>
 					</div>
 					<div className='flex flex-row justify-center items-center mb-6'>

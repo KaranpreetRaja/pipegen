@@ -11,8 +11,11 @@ export default {
       },
       height: {
         'file-upload-modal': '550px',
-        'files-section': '250px'
+        'files-section': '250px',
       },
+      width: {
+        'pipeline': '500px'
+      }
     },
   },
   plugins: [],

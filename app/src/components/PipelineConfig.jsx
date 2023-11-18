@@ -24,16 +24,33 @@ const PipelineConfig = () => {
       {
         type: "",
         is_custom: false,
-        train_file_format: "",
+        train_file_format: "csv",
         train_file: "",
         has_test: false,
         test_file: "",
-        generation: "",
+        generation: false,
+        generation_prompt: "",
       },
   });
 
-  const fileToBlob = () => {}
-  
+  const handleTrainingTestingFilesUpdate = (blobs) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      model: {
+        ...prevData.model,
+        train_file: blobs[0] || "",
+        test_file: blobs[1] || "",
+      },
+    }));
+  };
+
+  const handleFilesUpdate = (blobs) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      uploads: blobs,
+    }));
+  };
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     if (name.startsWith("model.")) {
@@ -50,11 +67,14 @@ const PipelineConfig = () => {
         [name]: type === "checkbox" ? checked : value,
       }));
     }
+
+    
     // console.log(formData)
   };
 
   const handleNext = (e) => {
     handleChange(e);
+    toggleBtnName(page+1);
 
     if (page == 1){
       if (formData.has_upload === true){
@@ -75,7 +95,6 @@ const PipelineConfig = () => {
     else if (page === 3){
       if (formData.model.is_custom === true){
         setPage(4)
-        setBtnName("Create")
       }
       else{
         // TO DO: Reset training files in formData to null
@@ -87,11 +106,11 @@ const PipelineConfig = () => {
       console.log("Finished creating pipeline")
       console.log(formData)
     }
-    
   }
 
   const handleBack = (e) => {
     handleChange(e);
+    toggleBtnName(page-1);
 
     if (page === 4) {
       setPage(3);
@@ -107,9 +126,18 @@ const PipelineConfig = () => {
     }
   };
 
-  const createPipeline = async () => {
+  const toggleBtnName = (pageNumber) => {
+    if (pageNumber === 4 || (pageNumber === 3 && formData.model.is_custom === false)) {
+      setBtnName("Create");
+    } else {
+      setBtnName("Next");
+    }
+  };
+  
+  const createPipeline = async (e) => {
+    handleChange(e);
     try {
-      const response = await axios.post('your_api_endpoint_here', formData);
+      const response = await axios.post('https://playboxnow.pythonanywhere.com/api/user/PJYhX4rPRSRt1Kwm4ZnZdRAxtFw2/', formData);
       console.log('Pipeline created:', response.data);
       // TO DO: Navigate to Model Page
     } catch (error) {
@@ -169,7 +197,7 @@ const PipelineConfig = () => {
               visibility={page === 2}
               formData={formData}
               handleChange={handleChange}
-              handleFiles={handleFiles}
+              handleFilesUpdate={handleFilesUpdate}
             />
          
           
@@ -182,8 +210,7 @@ const PipelineConfig = () => {
         
             <WizardPage4
               visibility={page === 4}
-              formData={formData}
-              handleChange={handleChange}
+              handleFilesUpdate={handleTrainingTestingFilesUpdate}
             />
           
           
