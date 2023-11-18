@@ -106,3 +106,31 @@ def login():
     except Exception as e:
         return jsonify({'error': str(e)}), 400
     
+'''
+GET /api/user/<uid>
+
+Description: Gets a user's information.
+
+JSON response format:
+{
+    "email": "user email",
+    "email_verified": boolean,
+    "account_disabled": boolean
+}
+
+JSON error format:
+{
+    "error": "error message"
+}
+'''
+@user_api.route('/<uid>', methods=['GET'])
+def get_user(uid):
+    try:
+        user = auth.get_user(uid)
+        return jsonify({
+            'email': user.email,
+            'email_verified': user.email_verified,
+            'account_disabled': user.disabled
+        }), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
