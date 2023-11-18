@@ -1,34 +1,34 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { AiOutlineArrowUp } from "react-icons/ai";
 import File from "./FileCard";
-import { useState, useEffect } from "react";
+import { Document, Page, pdfjs } from "react-pdf";
+import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 
 const WizardPage2 = ({ visibility, formData, handleChange, handleFilesUpdate }) => {
-  const [blobs, setBlobs] = useState([]);
   const [files, setFiles] = useState([]);
+  const [textContents, setTextContents] = useState([]);
 
-  const filetoBLOB = (file) => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      resolve(event.target.result);
-    };
-    reader.readAsText(file);
-  });
-  
-  const handleFileUpload = (e) => {
-    const files = e.target.files;
+  pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
-    Promise.all(files).then((files) => {
-      setFiles((prevFiles) => [...prevFiles, ...files]);
-    });
+  const fileToText = async (file) => {
+    const arrayBuffer = await file.arrayBuffer();
+    const textDecoder = new TextDecoder('utf-8');
+    const text = textDecoder.decode(arrayBuffer);
+    return text;
+  };
 
-    const uploadFiles = Array.from(files).map(async (file) => {
-      return await filetoBLOB(file);
-    });
-  
-    Promise.all(uploadFiles).then((uploads) => {
-      setBlobs((prevBlobs) => [...prevBlobs, ...uploads]);
-    });
+  const handleFileUpload = async (e) => {
+    const selectedFiles = e.target.files;
+
+    const fileTextContents = await Promise.all(
+      Array.from(selectedFiles).map(async (file) => {
+        const textContent = await fileToText(file);
+        return textContent;
+      })
+    );
+
+    setFiles((prevFiles) => [...prevFiles, ...selectedFiles]);
+    setTextContents((prevTextContents) => [...prevTextContents, ...fileTextContents]);
   };
 
   const handleDeleteFile = (index) => {
@@ -38,17 +38,16 @@ const WizardPage2 = ({ visibility, formData, handleChange, handleFilesUpdate }) 
       return updatedFiles;
     });
 
-    setBlobs((prevBlobs) => {
-      const updatedBlobs = [...prevBlobs];
-      updatedBlobs.splice(index, 1);
-      return updatedBlobs;
+    setTextContents((prevTextContents) => {
+      const updatedTextContents = [...prevTextContents];
+      updatedTextContents.splice(index, 1);
+      return updatedTextContents;
     });
   };
-  
+
   useEffect(() => {
-    // console.log(blobs);
-    handleFilesUpdate([blobs]);
-  }, [blobs]);
+    handleFilesUpdate(textContents);
+  }, [textContents]);
 
   return (
     <div className={visibility ? "" : "hidden"}>
@@ -67,7 +66,6 @@ const WizardPage2 = ({ visibility, formData, handleChange, handleFilesUpdate }) 
               className="hidden"
             />
           </label>
-
         </div>
 
         <div className="flex mt-8 flex-col">
@@ -84,12 +82,12 @@ const WizardPage2 = ({ visibility, formData, handleChange, handleFilesUpdate }) 
           </label>
 
           <div className="w-full overflow-y-scroll space-y-4 ml-2 h-files-section">
-          {files.map((file, index) => (
+            {files.map((file, index) => (
               <File
                 key={index}
                 FileName={file.name}
                 Size={`${file.size} Bytes`}
-                onDelete={() => handleDeleteFile(index)}  
+                onDelete={() => handleDeleteFile(index)}
                 index={index}
               />
             ))}
