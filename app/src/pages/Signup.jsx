@@ -15,17 +15,17 @@ const Signup = () => {
 		const { name, value } = e.target;
 		setFormData((prevData) => ({ ...prevData, [name]: value }));
 	};
-	
+
 	const handleSubmit = async (formData) => {
 		console.log('Form submitted:', formData);
 		try {
 			const user = {
 				email: formData.email,
 				password: formData.password,
-				email_verified: true,  
-				account_disabled: false 
+				email_verified: true,
+				account_disabled: false
 			};
-	
+
 			const response = await axios.post('/api/register', user);
 			console.log('User registered successfully:', response.data.uid);
 		} catch (error) {
@@ -38,21 +38,6 @@ const Signup = () => {
 			<div className='sign-up-form'>
 				<h2><img src='/logo.png' width={28} /> PipeGen AI</h2>
 			</div>
-			<div>
-                <div className="flex justify-center w-full mt-2">
-                    <button className="w-96 h-12 input-field bg-white border-slate-500 border-2 text-black font-bold py-3 px-24 rounded inline-flex items-center">
-                        <IconContext.Provider value={{ size: "30px" }}>
-                            <FcGoogle />
-                        </IconContext.Provider>
-                        <span className="ml-4">Sign up with Google</span>
-                    </button>
-                </div>
-                <p className="text-sm font-semibold text-center mt-4">
-                    <span className="border-b w-full text-center border-gray-300 py-1">
-                    Or
-                    </span>
-                </p>
-            </div>
 			<form className="sign-up-form" onSubmit={handleSubmit}>
 				<div className="form-row">
 					<div className="form-group">
@@ -110,6 +95,19 @@ const Signup = () => {
 				</div>
 				<div className="form-group">
 					<button className='btn-submit' type="submit">Sign Up</button>
+				</div>
+				<p className="text-sm font-semibold text-center m-4">
+					<span className="border-b w-full text-center border-gray-300 py-1">
+						Or
+					</span>
+				</p>
+				<div className="flex justify-center w-full mt-2">
+					<button className="w-96 h-12 input-field bg-white border-slate-500 border-2 text-black font-bold py-3 px-24 rounded inline-flex items-center">
+						<IconContext.Provider value={{ size: "30px" }}>
+							<FcGoogle />
+						</IconContext.Provider>
+						<span className="ml-4">Continue with Google</span>
+					</button>
 				</div>
 			</form>
 		</div>

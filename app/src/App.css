@@ -132,6 +132,7 @@ header {
     border: 1px solid #ddd;
     padding: 20px;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .card p {
@@ -220,5 +221,6 @@ label {
     min-width: 900px;
     width: 100%;
     overflow-x: scroll;
+    margin: auto;
     padding: 20px 0;
 }
