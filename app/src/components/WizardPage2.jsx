@@ -12,7 +12,7 @@ const WizardPage2 = ({ visibility, formData, handleChange, handleFilesUpdate }) 
     reader.onload = (event) => {
       resolve(event.target.result);
     };
-    reader.readAsDataURL(file);
+    reader.readAsText(file);
   });
   
   const handleFileUpload = (e) => {
@@ -58,9 +58,10 @@ const WizardPage2 = ({ visibility, formData, handleChange, handleFilesUpdate }) 
 
           <label className="bg-blue-700 text-white px-4 py-2 rounded-full hover:bg-blue-900 focus:outline-none focus:ring focus:border-blue-300 flex flex-row items-center space-x-2 cursor-pointer">
             <AiOutlineArrowUp />
-            <span>Upload RAG File</span>
+            <span>Upload PDF Files for RAG</span>
             <input
               type="file"
+              accept=".pdf"
               multiple
               onChange={handleFileUpload}
               className="hidden"

@@ -137,7 +137,7 @@ const PipelineConfig = () => {
   const createPipeline = async (e) => {
     handleChange(e);
     try {
-      const response = await axios.post('https://playboxnow.pythonanywhere.com/api/user/PJYhX4rPRSRt1Kwm4ZnZdRAxtFw2/', formData);
+      const response = await axios.post('url here', formData);
       console.log('Pipeline created:', response.data);
       // TO DO: Navigate to Model Page
     } catch (error) {
