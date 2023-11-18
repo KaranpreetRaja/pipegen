@@ -6,13 +6,13 @@ const WizardPage3 = ({ visibility, formData, handleChange }) => {
       <form className="p-6">
         {/* Select Model */}
         <div className="mb-4">
-          <label htmlFor="model" className="block text-sm font-semibold mb-2">
+          <label htmlFor="model.type" className="block text-sm font-semibold mb-2">
             Select Model:
           </label>
           <select
-            id="model"
-            name="model"
-            value={formData.model[0].type}
+            id="model.type"
+            name="model.type"
+            value={formData.model.type}
             onChange={handleChange}
             className="w-full p-2 border rounded-md"
           >
@@ -25,12 +25,12 @@ const WizardPage3 = ({ visibility, formData, handleChange }) => {
 
         {/* Enable Custom Model */}
         <div className="mb-4">
-          <label htmlFor="custom_model" className="flex items-center">
+          <label htmlFor="model.is_custom" className="flex items-center">
             <input
               type="checkbox"
-              id="custom_model"
-              name="custom_model"
-              checked={formData.model[0].is_custom}
+              id="model.is_custom"
+              name="model.is_custom"
+              checked={formData.model.is_custom}
               onChange={handleChange}
               className="mr-2"
             />
